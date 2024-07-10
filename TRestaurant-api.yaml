@@ -1,0 +1,322 @@
+openapi: 3.0.0
+info:
+  title: Restaurant Management API
+  version: 1.0.0
+  description: API for managing restaurant operations including customer information, menu, and orders.
+
+paths:
+  /customers:
+    post:
+      summary: Register a new customer
+      operationId: registerCustomer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerInfo'
+      responses:
+        '200':
+          description: Customer registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerInfo'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      summary: Retrieve customer information
+      operationId: getCustomerInfo
+      parameters:
+        - in: query
+          name: userId
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: phoneNumber
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Customer information retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerInfo'
+        '404':
+          description: Customer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /login:
+    post:
+      summary: Login a customer
+      operationId: loginCustomer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                phoneNumber:
+                  type: string
+      responses:
+        '200':
+          description: Customer logged in successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerInfo'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /menus:
+    get:
+      summary: Get menu
+      operationId: getMenu
+      responses:
+        '200':
+          description: Menu retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Menu'
+        '404':
+          description: Menu not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /recommendMenu:
+    get:
+      summary: Recommend a menu based on number of guests
+      operationId: recommendMenu
+      parameters:
+        - in: query
+          name: numberOfGuests
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Recommended menu retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Menu'
+        '404':
+          description: No recommendation found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /customizedMenu:
+    post:
+      summary: Add a dish to the customized menu
+      operationId: addDish
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                dishName:
+                  type: string
+                dishType:
+                  type: string
+      responses:
+        '200':
+          description: Dish added successfully
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      summary: Delete a dish from the customized menu
+      operationId: deleteDish
+      parameters:
+        - in: query
+          name: dishName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Dish deleted successfully
+        '404':
+          description: Dish not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /order:
+    get:
+      summary: Show order details
+      operationId: showOrderDetails
+      responses:
+        '200':
+          description: Order details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /packageOffers:
+    get:
+      summary: Show package offers based on the number of guests
+      operationId: showOffers
+      parameters:
+        - in: query
+          name: numberOfGuests
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Package offers retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PackageOffer'
+        '404':
+          description: No offers found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    CustomerInfo:
+      type: object
+      properties:
+        userId:
+          type: string
+          example: "12345"
+        email:
+          type: string
+          example: "john.doe@example.com"
+        phoneNumber:
+          type: string
+          example: "123-456-7890"
+        firstName:
+          type: string
+          example: "John"
+        lastName:
+          type: string
+          example: "Doe"
+        numberOfGuests:
+          type: integer
+          example: 4
+
+    Menu:
+      type: object
+      properties:
+        appetizers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Appetizer'
+        entrees:
+          type: array
+          items:
+            $ref: '#/components/schemas/Entree'
+        desserts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dessert'
+        drinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Drink'
+
+    Appetizer:
+      type: object
+      properties:
+        appetizerName:
+          type: string
+          example: "Bruschetta"
+        appetizerImage:
+          type: string
+          example: "bruschetta.jpg"
+
+    Entree:
+      type: object
+      properties:
+        entreeName:
+          type: string
+          example: "Grilled Salmon"
+        entreeImage:
+          type: string
+          example: "grilled_salmon.jpg"
+
+    Dessert:
+      type: object
+      properties:
+        dessertName:
+          type: string
+          example: "Cheesecake"
+        dessertImage:
+          type: string
+          example: "cheesecake.jpg"
+
+    Drink:
+      type: object
+      properties:
+        drinkName:
+          type: string
+          example: "Mojito"
+        drinkImage:
+          type: string
+          example: "mojito.jpg"
+
+    Order:
+      type: object
+      properties:
+        orderId:
+          type: string
+          example: "ORD12345"
+        orderDetails:
+          type: string
+          example: "Details of the order..."
+
+    PackageOffer:
+      type: object
+      properties:
+        offer:
+          type: string
+          example: "Special discount for 4 guests"
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "An error occurred"

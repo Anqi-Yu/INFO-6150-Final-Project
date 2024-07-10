@@ -1,45 +1,80 @@
 # INFO-6150-Final-Porject
+```mermaid
 classDiagram
-    class Customer {
-        +String name
+    class CustomerInfo {
+        +String userId
+        +String email
         +String phoneNumber
+        +String firstName
+        +String lastName
         +int numberOfGuests
         +register()
         +login()
     }
 
     class Registration {
-        +fillInfo(name, phoneNumber, numberOfGuests)
+        +fillInfo(String userId, String email, String firstName, String lastName, String phoneNumber, int numberOfGuests)
     }
 
     class Menu {
-        +showMenu()
+        +Appetizer appetizer
+        +Entree entree
+        +Dessert dessert
+        +Drink drink
+        +showMenu(Appetizer appetizer, Entree entree, Dessert dessert, Drink drink)
+    }
+
+    class Appetizer{
+        +String appetizerName
+        +String appetizerImage
+    }
+
+    class Entree{
+        +String entreeName
+        +String entreeImage
+    }
+
+    class Dessert{
+        +String dessertName
+        +String dessertImage
+    }
+
+    class Drink{
+        +String drinkName
+        +String drinkImage
     }
 
     class PreSetMenu {
-        +recommendPackage(numberOfGuests)
+        +recommendPackage(int numberOfGuests)
     }
 
-    class CustomMenu {
-        +selectDishes()
+    class CustomizedMenu {
+        +addDish()
+        +deleteDish()
     }
 
-    class CustomerInfo {
-        +String name
-        +String phoneNumber
-        +int numberOfGuests
+    class Order{
+        +showOrderDetails()
     }
+
+    class PackageByGuests{
+        +showOffers()
+    }
+    
+    class PackageOffer{
+        +String offer
+    }   
 
     class RegisterCustomerService {
-        +registerCustomer(name, phoneNumber, numberOfGuests)
+        +registerCustomer(String userId, String email, String phoneNumber, String firstName, String lastName, int numberOfGuests)
     }
 
     class LoginCustomerService {
-        +loginCustomer(name, phoneNumber)
+        +loginCustomer(String userId, String phoneNumber)
     }
 
     class RecommendMenuService {
-        +recommendMenu(numberOfGuests)
+        +recommendMenu(int numberOfGuests)
     }
 
     class SelectMenuService {
@@ -48,7 +83,7 @@ classDiagram
 
     class CustomerRepository {
         +saveCustomerInfo(CustomerInfo)
-        +getCustomerInfo(name, phoneNumber)
+        +getCustomerInfo(String userId, String phoneNumber)
     }
 
     class MenuRepository {
@@ -56,21 +91,32 @@ classDiagram
         +getMenu()
     }
 
-    Customer --> Registration : fills info
-    Registration --> CustomerInfo : stores
-    Customer --> Menu : logs in
-    Menu --> PreSetMenu : offers
-    Menu --> CustomMenu : offers
-    PreSetMenu --> PackageByGuests : recommends
-    CustomMenu --> Dishes : allows selecting
+    
+    Menu "1" *-- "0..*"Appetizer
+    Menu "1" *-- "0..*" Entree
+    Menu "1" *-- "0..*" Dessert
+    Menu "1" *-- "0..*" Drink
+    PackageByGuests *-- PackageOffer
 
+
+    Registration --> CustomerRepository : stores
+    Registration --> CustomerInfo : fills info
+    CustomerInfo --> LoginCustomerService : fills info
+    SelectMenuService --> RecommendMenuService : offers
+    SelectMenuService --> CustomizedMenu : offers
+    SelectMenuService --> MenuRepository : retrieves
+    PreSetMenu --> PackageByGuests : recommends
+    CustomizedMenu --> Order : allows selecting
     RegisterCustomerService --> Registration : calls
+    RegisterCustomerService --> CustomerRepository : saveCustomerInfo
+    LoginCustomerService --> CustomerRepository : getCustomerInfo
     LoginCustomerService --> Menu : calls
     RecommendMenuService --> PreSetMenu : calls
-    SelectMenuService --> CustomMenu : calls
+    CustomerInfo <|-- CustomerRepository  : retrieves
+    Menu <|-- MenuRepository : retrieves
 
-    CustomerRepository --> CustomerInfo : stores
-    MenuRepository --> Menu : stores
+
+```
 
  逻辑介绍
 
