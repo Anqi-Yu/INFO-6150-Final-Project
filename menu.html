@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+    <link rel="stylesheet" href="styles/app.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="register.html">Book</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="menu-container">
+            <h1>Explore Our Menu</h1>
+            <p>Check out our delicious dishes below and select your favorites!</p>
+            <div id="menu" class="menu-items"></div>
+        </div>
+        <div class="order-container">
+            <h2>Your Order</h2>
+            <p>Review and place your order:</p>
+            <ul id="orderList"></ul>
+            <button id="placeOrderBtn" class="btn btn-primary">Place Order</button>
+        </div>
+    </div>
+    <script src="menu/menu-client.js"></script>
+</body>
+</html>
