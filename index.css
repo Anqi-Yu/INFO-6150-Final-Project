@@ -2,6 +2,15 @@
 
 /* font-family: 'Big Shoulders Text', cursive; */
 
+/* General Styling */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Big Shoulders Text', cursive;
+    background-color: #f3f3f3;
+    color: #333333;
+}
+
 .nav-flex-row {
     display: flex;
     flex-direction: row;
@@ -11,6 +20,7 @@
     left: 0;
     width: 100%;
     padding: 0;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .nav-flex-row li {
@@ -25,6 +35,11 @@
     font-size: 1.5em;
     text-transform: uppercase;
     font-weight: 300;
+    transition: color 0.3s ease;
+}
+
+.nav-flex-row li a:hover {
+    color: #ffcc00;
 }
 
 .section-intro {
@@ -35,25 +50,35 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
+    text-align: center;
 }
 
 .section-intro h1 {
-    text-align: center;
     color: #ffffff;
     font-size: 4em;
     font-weight: 700;
-}
-
-.section-intro header {
-    display: flex;
-    flex: 4;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    margin: 0;
 }
 
 .link-to-book-wrapper {
-    flex: 1;
+    margin-top: 20px;
+}
+
+.link-to-book {
+    color: #ffffff;
+    display: block;
+    border: 2px solid #ffffff;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    font-size: 1.2em;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.link-to-book:hover {
+    background-color: #ffffff;
+    color: #000000;
+    text-decoration: none;
 }
 
 .about-section {
@@ -63,43 +88,55 @@
     padding: 50px 30px;
 }
 
-.link-to-book {
-    color: #ffffff;
-    display: block;
-    border: 2px solid #ffffff;
-    padding: 5px 10px;
-}
-
-a.link-to-book:hover {
-    background-color: #ffffff;
-    color: #95999e;
-    text-decoration: none;
-}
-
 .about-section p,
 .about-section h3 {
     text-align: center;
     width: 60%;
     margin: auto;
-    font-family: 'Big Shoulders Text', cursive;
     font-size: 1.8em;
     text-transform: uppercase;
+    line-height: 1.5;
 }
 
 .carousel-inner {
     height: 700px;
 }
 
+.carousel-item img {
+    object-fit: cover;
+    height: 700px;
+}
+
 .row-flex {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    margin-top: 50px;
 }
 
-.flex-column-form {
-    display: flex;
-    flex-direction: column;
+.flex-column-form,
+.opening-time,
+.contact-adress {
     flex: 1;
     margin: 30px 20px;
+}
+
+.flex-column-form h3,
+.opening-time h3,
+.contact-adress h3 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+}
+
+.form-group p {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.opening-time p span,
+.contact-adress p span {
+    display: block;
+    margin-bottom: 10px;
 }
 
 .btn.btn-primary {
@@ -108,47 +145,36 @@ a.link-to-book:hover {
     background-color: #95999e;
     text-transform: uppercase;
     font-size: 16px;
-    padding: 5px 10px;
+    padding: 10px 20px;
     letter-spacing: 2px;
     border: 0;
+    transition: background-color 0.3s ease;
 }
 
 .btn.btn-primary:hover {
     background-color: #747474;
 }
-.opening-time,
-.contact-adress {
-    flex: 1;
-    margin: 30px 20px;
-    font-size: 1.2em;
-}
 
-.form-group p {
-    font-size: 1.2em;
-}
-
-.opening-time p span,
-.contact-adress p span {
-    display: block;
-}
-
-@media (min-width:577px) and (max-width: 800px) {
-
+/* Responsive Design */
+@media (min-width: 577px) and (max-width: 800px) {
     .section-intro {
         height: 500px;
     }
 
     .about-section p,
     .about-section h3 {
-        font-size: 20px;
+        font-size: 1.5em;
     }
 
     .carousel-inner {
         height: auto;
     }
 
+    .carousel-item img {
+        height: auto;
+    }
+
     .row-flex {
-        display: flex;
         flex-direction: column;
     }
 }
@@ -168,31 +194,33 @@ a.link-to-book:hover {
 
     .about-section p,
     .about-section h3 {
-        font-size: 15px;
+        font-size: 1.2em;
     }
 
     .carousel-inner {
         height: auto;
     }
 
+    .carousel-item img {
+        height: auto;
+    }
+
     .row-flex {
-        display: flex;
         flex-direction: column;
     }
 
     .row-flex h3 {
-        font-size: 25px;
+        font-size: 1.5em;
         text-align: center;
     }
 
     .form-group p {
-        font-size: 15px;
+        font-size: 1em;
     }
 
     .opening-time p span,
     .contact-adress p span {
-        font-size: 15px;
+        font-size: 1em;
         text-align: center;
     }
-
 }
