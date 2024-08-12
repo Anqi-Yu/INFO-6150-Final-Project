@@ -61,4 +61,35 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Please add items to your order.');
         }
     });
+
+    // 文件系统访问 API
+    document.getElementById('openFile').addEventListener('click', async () => {
+        try {
+            const [fileHandle] = await window.showOpenFilePicker();
+            const file = await fileHandle.getFile();
+            const content = await file.text();
+            document.getElementById('fileContent').textContent = content;
+        } catch (err) {
+            console.error(err);
+        }
+    });
+
+    // 通知 API
+    document.getElementById('notifyUser').addEventListener('click', () => {
+        if (Notification.permission === "granted") {
+            new Notification("Order Placed!", {
+                body: "Your order has been placed successfully.",
+                icon: "icon.png"  // 你可以设置一个图标文件
+            });
+        } else if (Notification.permission !== "denied") {
+            Notification.requestPermission().then(permission => {
+                if (permission === "granted") {
+                    new Notification("Order Placed!", {
+                        body: "Your order has been placed successfully.",
+                        icon: "icon.png"
+                    });
+                }
+            });
+        }
+    });
 });
