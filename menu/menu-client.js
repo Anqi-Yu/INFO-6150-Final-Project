@@ -1,47 +1,80 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const menu = [
-        { name: 'Spaghetti Bolognese', price: 12, image: 'spaghetti.jpg' },
-        { name: 'Caesar Salad', price: 8, image: 'caesar_salad.jpg' },
-        { name: 'Grilled Chicken', price: 15, image: 'grilled_chicken.jpg' },
-        { name: 'Mushroom Soup', price: 7, image: 'mushroom_soup.jpg' },
-        { name: 'Tiramisu', price: 6, image: 'tiramisu.jpg' },
-        { name: 'Cheesecake', price: 6, image: 'cheesecake.jpg' }
-        // 继续添加其他菜品
-    ];
+    const menu = {
+        "appetizers": [
+            { "name": "Bruschetta", "price": 5, "image": "bruschetta.jpg" },
+            { "name": "Stuffed Mushrooms", "price": 6, "image": "stuffed_mushrooms.jpg" },
+            { "name": "Caprese Salad", "price": 7, "image": "caprese_salad.jpg" },
+            { "name": "Garlic Bread", "price": 4, "image": "garlic_bread.jpg" },
+            { "name": "Shrimp Cocktail", "price": 8, "image": "shrimp_cocktail.jpg" }
+        ],
+        "entrees": [
+            { "name": "Grilled Salmon", "price": 15, "image": "grilled_salmon.jpg" },
+            { "name": "Spaghetti Carbonara", "price": 12, "image": "spaghetti_carbonara.jpg" },
+            { "name": "Chicken Parmesan", "price": 14, "image": "chicken_parmesan.jpg" },
+            { "name": "Beef Wellington", "price": 20, "image": "beef_wellington.jpg" },
+            { "name": "Vegetarian Lasagna", "price": 13, "image": "vegetarian_lasagna.jpg" }
+        ],
+        "desserts": [
+            { "name": "Cheesecake", "price": 6, "image": "cheesecake.jpg" },
+            { "name": "Tiramisu", "price": 7, "image": "tiramisu.jpg" },
+            { "name": "Chocolate Lava Cake", "price": 8, "image": "chocolate_lava_cake.jpg" },
+            { "name": "Apple Pie", "price": 5, "image": "apple_pie.jpg" },
+            { "name": "Panna Cotta", "price": 6, "image": "panna_cotta.jpg" }
+        ],
+        "drinks": [
+            { "name": "Mojito", "price": 5, "image": "mojito.jpg" },
+            { "name": "Iced Tea", "price": 3, "image": "iced_tea.jpg" },
+            { "name": "Lemonade", "price": 4, "image": "lemonade.jpg" },
+            { "name": "Cappuccino", "price": 4, "image": "cappuccino.jpg" },
+            { "name": "Margarita", "price": 7, "image": "margarita.jpg" }
+        ]
+    };
 
     const menuContainer = document.getElementById('menu');
     const orderList = document.getElementById('orderList');
     let order = [];
 
-    menu.forEach(item => {
-        const menuItem = document.createElement('div');
-        menuItem.className = 'menu-item';
+    function addMenuItems(category, items) {
+        const categoryTitle = document.createElement('h3');
+        categoryTitle.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+        menuContainer.appendChild(categoryTitle);
 
-        const img = document.createElement('img');
-        img.src = `images/${item.image}`;
-        img.alt = item.name;
-        img.className = 'menu-image';
+        items.forEach(item => {
+            const menuItem = document.createElement('div');
+            menuItem.className = 'menu-item';
 
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.value = item.name;
-        checkbox.addEventListener('change', function () {
-            if (this.checked) {
-                order.push(item);
-            } else {
-                order = order.filter(orderItem => orderItem.name !== item.name);
-            }
-            updateOrderList();
+            const img = document.createElement('img');
+            img.src = `images/${item.image}`;
+            img.alt = item.name;
+            img.className = 'menu-image';
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.value = item.name;
+            checkbox.addEventListener('change', function () {
+                if (this.checked) {
+                    order.push(item);
+                } else {
+                    order = order.filter(orderItem => orderItem.name !== item.name);
+                }
+                updateOrderList();
+            });
+
+            const label = document.createElement('label');
+            label.textContent = `${item.name} - $${item.price}`;
+
+            menuItem.appendChild(img);
+            menuItem.appendChild(checkbox);
+            menuItem.appendChild(label);
+            menuContainer.appendChild(menuItem);
         });
+    }
 
-        const label = document.createElement('label');
-        label.textContent = `${item.name} - $${item.price}`;
-
-        menuItem.appendChild(img);
-        menuItem.appendChild(checkbox);
-        menuItem.appendChild(label);
-        menuContainer.appendChild(menuItem);
-    });
+    // 加载所有类别的菜单项
+    addMenuItems('Appetizers', menu.appetizers);
+    addMenuItems('Entrees', menu.entrees);
+    addMenuItems('Desserts', menu.desserts);
+    addMenuItems('Drinks', menu.drinks);
 
     function updateOrderList() {
         orderList.innerHTML = '';
